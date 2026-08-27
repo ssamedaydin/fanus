@@ -1,0 +1,25 @@
+name: fanus
+description: Fanus — kişisel odak ve dijital denge uygulaması (monorepo kökü)
+publish_to: none
+
+environment:
+  sdk: ^3.12.0
+
+workspace:
+  - apps/fanus_app
+  - packages/fanus_core
+  - packages/fanus_design
+dev_dependencies:
+  melos: ^8.5.0
+
+melos:
+  scripts:
+    analyze:
+      description: Tüm çalışma alanında statik analiz
+      run: flutter analyze .
+    test:
+      description: Testi olan tüm paketlerde flutter test
+      run: dart run melos exec --dir-exists=test -- flutter test
+    format:
+      description: Tüm çalışma alanında kod formatı
+      run: dart format .
