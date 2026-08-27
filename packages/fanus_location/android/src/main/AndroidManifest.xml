@@ -1,0 +1,20 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+  package="com.samedaydin.fanus_location">
+
+  <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+  <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+  <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+  <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+  <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+  <uses-permission android:name="android.permission.FOREGROUND_SERVICE_LOCATION" />
+
+  <application>
+    <receiver
+      android:name=".GeofenceBroadcastReceiver"
+      android:exported="false" />
+    <service
+      android:name=".FocusTrackingService"
+      android:exported="false"
+      android:foregroundServiceType="location" />
+  </application>
+</manifest>

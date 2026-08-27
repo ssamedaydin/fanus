@@ -9,6 +9,7 @@ workspace:
   - apps/fanus_app
   - packages/fanus_core
   - packages/fanus_design
+  - packages/fanus_location
 dev_dependencies:
   melos: ^8.5.0
 
