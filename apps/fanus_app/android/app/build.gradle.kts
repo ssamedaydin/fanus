@@ -1,8 +1,22 @@
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id("dev.flutter.flutter-gradle-plugin")
 }
+
+// Google Maps anahtarı repo dışında tutulur:
+// android/local.properties içinde `maps.apiKey=...` ya da MAPS_API_KEY ortam değişkeni.
+val localProperties = Properties()
+val localPropertiesFile = rootProject.file("local.properties")
+if (localPropertiesFile.exists()) {
+    localPropertiesFile.inputStream().use { localProperties.load(it) }
+}
+val mapsApiKey: String =
+    localProperties.getProperty("maps.apiKey")
+        ?: System.getenv("MAPS_API_KEY")
+        ?: ""
 
 android {
     namespace = "com.samedaydin.fanus_app"
@@ -23,6 +37,7 @@ android {
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
+        manifestPlaceholders["MAPS_API_KEY"] = mapsApiKey
     }
 
     buildTypes {

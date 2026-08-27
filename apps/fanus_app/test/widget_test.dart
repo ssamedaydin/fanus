@@ -1,8 +1,10 @@
 import 'package:fanus_app/app/app.dart';
+import 'package:fanus_app/features/areas/areas_providers.dart';
 import 'package:fanus_app/features/focus/focus_providers.dart';
 import 'package:fanus_location/fanus_location.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 /// Testte native kanala bağlanmayan sahte konum katmanı.
 class _FakeFanusLocation extends FanusLocation {
@@ -12,9 +14,13 @@ class _FakeFanusLocation extends FanusLocation {
 
 void main() {
   testWidgets('uygulama açılır ve oturum durumu görünür', (tester) async {
+    SharedPreferences.setMockInitialValues({});
+    final prefs = await SharedPreferences.getInstance();
+
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
+          sharedPreferencesProvider.overrideWithValue(prefs),
           fanusLocationProvider.overrideWithValue(_FakeFanusLocation()),
         ],
         child: const FanusApp(),
@@ -24,5 +30,6 @@ void main() {
 
     expect(find.text('Fanus'), findsOneWidget);
     expect(find.text('Aktif odak oturumu yok'), findsOneWidget);
+    expect(find.text('Çalışma alanlarını yönet'), findsOneWidget);
   });
 }

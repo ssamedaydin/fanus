@@ -8,8 +8,17 @@ final fanusLocationProvider = Provider<FanusLocation>((ref) => FanusLocation());
 
 /// Geofence olaylarını odak oturumlarına çeviren motor; native akışa bağlıdır.
 final sessionEngineProvider = Provider<SessionEngine>((ref) {
+  final location = ref.watch(fanusLocationProvider);
   final engine = SessionEngine();
-  final subscription = ref.watch(fanusLocationProvider).transitions.listen(
+  // Oturum başlarken pil dostu takip (foreground service) başlar, biterken durur.
+  final trackingSubscription = engine.updates.listen((session) {
+    if (session.isActive) {
+      location.startTracking();
+    } else {
+      location.stopTracking();
+    }
+  });
+  final subscription = location.transitions.listen(
     (event) {
       engine.handle(
         GeofenceEvent(
@@ -28,6 +37,7 @@ final sessionEngineProvider = Provider<SessionEngine>((ref) {
     },
   );
   ref.onDispose(() {
+    trackingSubscription.cancel();
     subscription.cancel();
     engine.dispose();
   });

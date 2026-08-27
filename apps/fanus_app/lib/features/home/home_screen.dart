@@ -1,5 +1,6 @@
 import 'package:fanus_design/fanus_design.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../focus/focus_providers.dart';
@@ -80,6 +81,12 @@ class HomeScreen extends ConsumerWidget {
                       ],
                     ),
             ),
+          ),
+          const SizedBox(height: FanusSpacing.md),
+          FilledButton.tonalIcon(
+            onPressed: () => context.push('/map'),
+            icon: const Icon(Icons.map_outlined),
+            label: const Text('Çalışma alanlarını yönet'),
           ),
         ],
       ),

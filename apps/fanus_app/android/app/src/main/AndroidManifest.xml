@@ -1,8 +1,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <application
-        android:label="fanus_app"
+        android:label="Fanus"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+        <!-- Anahtar repo dışında tutulur: android/local.properties -> maps.apiKey -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="${MAPS_API_KEY}" />
         <activity
             android:name=".MainActivity"
             android:exported="true"

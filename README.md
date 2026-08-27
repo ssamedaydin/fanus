@@ -22,8 +22,8 @@ The heart of the app is `SessionEngine` in `fanus_core` — a pure, unit-tested 
 ## Roadmap
 
 - [x] Monorepo skeleton: core models + session engine (tested), design system, app shell
-- [ ] Map screen: define circular work areas on Google Maps
-- [ ] `fanus_location` plugin — Android: GeofencingClient + foreground service (Kotlin); iOS: region monitoring + background location (Swift)
+- [x] Map screen: define circular work areas on Google Maps (long-press to add, radius picker, persisted locally)
+- [x] `fanus_location` plugin — Android: GeofencingClient + foreground service (Kotlin); iOS: region monitoring + background location (Swift, compilation verified on macOS separately)
 - [ ] `fanus_screen_time` plugin — Android: UsageStatsManager, Accessibility Service, DevicePolicyManager (Kotlin); iOS: FamilyControls, DeviceActivity, ManagedSettings + Shield Extension (Swift)
 - [ ] Shared focus rooms: real-time presence over WebSocket, reconnect/backoff handling
 - [ ] OneSignal push notifications, Sentry error tracking
@@ -40,3 +40,7 @@ dart pub get                  # resolves the whole workspace from the root
 dart run melos run analyze    # static analysis
 dart run melos run test       # tests in every package that has them
 ```
+
+The map screen needs a Google Maps key. It is never committed; put it in
+`apps/fanus_app/android/local.properties` as `maps.apiKey=YOUR_KEY`
+(or export `MAPS_API_KEY`). On iOS the key is provided in `AppDelegate`.
