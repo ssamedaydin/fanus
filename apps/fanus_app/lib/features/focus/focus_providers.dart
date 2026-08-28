@@ -13,16 +13,27 @@ final sessionEngineProvider = Provider<SessionEngine>((ref) {
   final location = ref.watch(fanusLocationProvider);
   final screenTime = ref.watch(fanusScreenTimeProvider);
   final engine = SessionEngine();
-  // Oturum başlarken pil dostu takip ve uygulama kalkanı devreye girer,
-  // biterken ikisi de kapanır.
-  final trackingSubscription = engine.updates.listen((session) {
-    if (session.isActive) {
+  // Takip servisi ve kalkan, tek tek olaylara değil NİHAİ duruma göre
+  // yönetilir: alan değişiminde oturum aynı anda bitip yeniden başlar;
+  // her olayda foreground service'i durdurup başlatmak Android'in
+  // startForeground zaman aşımına (ForegroundServiceDidNotStartInTime)
+  // takılır. Mikro görev, ardışık olay patlamasının yalnız sonucunu uygular.
+  bool? trackingApplied;
+  void applyTrackingState() {
+    final shouldTrack = engine.active != null;
+    if (trackingApplied == shouldTrack) return;
+    trackingApplied = shouldTrack;
+    if (shouldTrack) {
       location.startTracking();
       screenTime.setShieldEnabled(true);
     } else {
       location.stopTracking();
       screenTime.setShieldEnabled(false);
     }
+  }
+
+  final trackingSubscription = engine.updates.listen((_) {
+    Future.microtask(applyTrackingState);
   });
   final subscription = location.transitions.listen(
     (event) {
