@@ -25,7 +25,7 @@ The heart of the app is `SessionEngine` in `fanus_core` — a pure, unit-tested 
 - [x] Map screen: define circular work areas on Google Maps (long-press to add, radius picker, persisted locally)
 - [x] `fanus_location` plugin — Android: GeofencingClient + foreground service (Kotlin); iOS: region monitoring + background location (Swift, compilation verified on macOS separately)
 - [x] `fanus_screen_time` plugin — Android: UsageStatsManager, Accessibility Service, DevicePolicyManager (Kotlin); iOS: FamilyControls, DeviceActivity, ManagedSettings + Shield Extension sample (Swift, compilation verified on macOS separately)
-- [ ] Shared focus rooms: real-time presence over WebSocket, reconnect/backoff handling
+- [x] Shared focus rooms: real-time presence over WebSocket with exponential-backoff reconnection (demo server included in `server/`)
 - [ ] OneSignal push notifications, Sentry error tracking
 - [ ] TR/EN localization with slang
 
@@ -44,3 +44,12 @@ dart run melos run test       # tests in every package that has them
 The map screen needs a Google Maps key. It is never committed; put it in
 `apps/fanus_app/android/local.properties` as `maps.apiKey=YOUR_KEY`
 (or export `MAPS_API_KEY`). On iOS the key is provided in `AppDelegate`.
+
+Focus rooms talk to the demo server in `server/`:
+
+```
+dart run fanus_server        # REST + WebSocket on :8787
+```
+
+The app defaults to `http://10.0.2.2:8787` (Android emulator → host machine);
+on a real device pass `--dart-define=FANUS_SERVER=http://<host-ip>:8787`.

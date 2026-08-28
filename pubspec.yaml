@@ -11,6 +11,7 @@ workspace:
   - packages/fanus_design
   - packages/fanus_location
   - packages/fanus_screen_time
+  - server
 dev_dependencies:
   melos: ^8.5.0
 

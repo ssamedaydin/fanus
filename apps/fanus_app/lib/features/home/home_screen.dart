@@ -94,6 +94,12 @@ class HomeScreen extends ConsumerWidget {
             icon: const Icon(Icons.shield_outlined),
             label: const Text('Ekran süresi ve kısıtlamalar'),
           ),
+          const SizedBox(height: FanusSpacing.sm),
+          FilledButton.tonalIcon(
+            onPressed: () => context.push('/rooms'),
+            icon: const Icon(Icons.groups_outlined),
+            label: const Text('Odak odaları'),
+          ),
         ],
       ),
     );
