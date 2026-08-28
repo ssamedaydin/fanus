@@ -1,6 +1,7 @@
 import 'package:go_router/go_router.dart';
 
 import '../features/areas/map_screen.dart';
+import '../i18n/translations.g.dart';
 import '../features/home/home_screen.dart';
 import '../features/rooms/rooms_screen.dart';
 import '../features/screen_time/screen_time_screen.dart';
@@ -27,7 +28,8 @@ final appRouter = GoRouter(
               path: ':id',
               builder: (context, state) => RoomScreen(
                 roomId: state.pathParameters['id']!,
-                roomName: state.uri.queryParameters['name'] ?? 'Odak odası',
+                roomName: state.uri.queryParameters['name'] ??
+                    t.rooms.defaultRoomName,
               ),
             ),
           ],

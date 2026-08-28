@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:fanus_core/fanus_core.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../i18n/translations.g.dart';
 import '../focus/focus_providers.dart';
 
 /// Sunucu adresi; Android emülatöründe host makineye 10.0.2.2 ile erişilir.
@@ -21,8 +22,9 @@ final roomsProvider = FutureProvider.autoDispose<List<FocusRoom>>(
 );
 
 /// Odalarda görünen takma ad; oturum boyunca sabit kalır.
-final guestNameProvider =
-    Provider<String>((ref) => 'Misafir-${Random().nextInt(9000) + 1000}');
+final guestNameProvider = Provider<String>(
+  (ref) => t.rooms.guestName(id: Random().nextInt(9000) + 1000),
+);
 
 /// Oda başına canlı WebSocket bağlantısı; ekran kapanınca kendini kapatır.
 final roomConnectionProvider =

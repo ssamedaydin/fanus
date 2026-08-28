@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'app/app.dart';
 import 'features/areas/areas_providers.dart';
+import 'i18n/translations.g.dart';
 
 /// Servis anahtarları derleme zamanında verilir; boş bırakılırsa ilgili
 /// entegrasyon sessizce devre dışı kalır (demo, anahtarsız da çalışır):
@@ -16,6 +17,7 @@ const _sentryDsn = String.fromEnvironment('FANUS_SENTRY_DSN');
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  LocaleSettings.useDeviceLocale();
   final prefs = await SharedPreferences.getInstance();
 
   if (_oneSignalAppId.isNotEmpty) {
@@ -24,9 +26,11 @@ Future<void> main() async {
     // açılışta otomatik izin diyaloğu gösterilmez.
   }
 
-  final app = ProviderScope(
-    overrides: [sharedPreferencesProvider.overrideWithValue(prefs)],
-    child: const FanusApp(),
+  final app = TranslationProvider(
+    child: ProviderScope(
+      overrides: [sharedPreferencesProvider.overrideWithValue(prefs)],
+      child: const FanusApp(),
+    ),
   );
 
   if (_sentryDsn.isEmpty) {

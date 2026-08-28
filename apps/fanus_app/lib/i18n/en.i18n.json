@@ -1,0 +1,77 @@
+{
+  "app": {
+    "title": "Fanus"
+  },
+  "common": {
+    "cancel": "Cancel",
+    "open": "Open",
+    "retry": "Try again"
+  },
+  "home": {
+    "noSessionTitle": "No active focus session",
+    "noSessionHint": "A session will start automatically when you enter a work area.",
+    "sessionActiveTitle": "Focus session in progress",
+    "sessionSince": "$area · since $time",
+    "menuAreasTitle": "Work areas",
+    "menuAreasSubtitle": "Define and manage areas on the map",
+    "menuScreenTimeTitle": "Screen time & restrictions",
+    "menuScreenTimeSubtitle": "Permissions, usage and restricted apps",
+    "menuRoomsTitle": "Focus rooms",
+    "menuRoomsSubtitle": "Focus together, share your status live"
+  },
+  "map": {
+    "title": "Work areas",
+    "permissionBanner": "\"Always\" location permission is required so focus sessions can start automatically.",
+    "grantPermission": "Grant",
+    "longPressHint": "Long-press the map to add a new work area.",
+    "newAreaTitle": "New work area",
+    "areaNameLabel": "Area name",
+    "areaNameHint": "Office, library…",
+    "radiusLabel": "Radius: $meters m",
+    "add": "Add",
+    "deleteTitle": "Delete $name?",
+    "deleteBody": "Its geofence registration will be removed as well.",
+    "delete": "Delete",
+    "deleteMarkerSnippet": "Tap to delete"
+  },
+  "screenTime": {
+    "title": "Screen time",
+    "refreshTooltip": "Refresh status",
+    "permissionsTitle": "Permissions",
+    "usageAccessTitle": "Usage access",
+    "usageAccessSubtitle": "To read daily app usage durations",
+    "shieldTitle": "Focus shield (accessibility)",
+    "shieldSubtitle": "To block restricted apps during focus",
+    "deviceAdminTitle": "Device admin (optional)",
+    "deviceAdminSubtitle": "To lock the screen on focus violations",
+    "restrictedTitle": "Restricted apps",
+    "restrictedCount": "$count apps restricted",
+    "restrictedSubtitle": "Blocked during focus sessions",
+    "todayUsageTitle": "Today's usage",
+    "noUsageTitle": "No data",
+    "noUsageHint": "Once usage access is granted, today's durations will be listed here.",
+    "minutes": "$minutes min",
+    "appsError": "Could not load apps: $error",
+    "usageError": "Could not load usage data",
+    "iosSectionTitle": "Screen Time",
+    "iosAuthTitle": "Screen Time authorization",
+    "iosAuthSubtitle": "FamilyControls (.individual) authorization",
+    "iosPickAppsTitle": "Choose apps to restrict",
+    "iosPickAppsSubtitle": "Opens the system FamilyActivityPicker"
+  },
+  "rooms": {
+    "title": "Focus rooms",
+    "memberCount": "$count in the room",
+    "serverError": "Could not reach the server",
+    "serverHint": "Start the demo server: dart run fanus_server\n($url)",
+    "defaultRoomName": "Focus room",
+    "emptyRoom": "Nobody in the room yet",
+    "focusing": "Focusing",
+    "idle": "Idle",
+    "guestName": "Guest-$id",
+    "statusConnected": "Connected",
+    "statusConnecting": "Connecting…",
+    "statusReconnecting": "Reconnecting…",
+    "statusDisconnected": "Disconnected"
+  }
+}

@@ -5,6 +5,7 @@ import 'package:fanus_screen_time/fanus_screen_time.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../i18n/translations.g.dart';
 import 'screen_time_providers.dart';
 
 /// Ekran süresi istatistikleri, izin akışları ve kısıtlı uygulama yönetimi.
@@ -15,10 +16,10 @@ class ScreenTimeScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Ekran süresi'),
+        title: Text(t.screenTime.title),
         actions: [
           IconButton(
-            tooltip: 'Durumu yenile',
+            tooltip: t.screenTime.refreshTooltip,
             icon: const Icon(Icons.refresh),
             onPressed: () => ref
               ..invalidate(usageAccessProvider)
@@ -43,48 +44,48 @@ class ScreenTimeScreen extends ConsumerWidget {
     final restrictedCount =
         ref.watch(restrictedAppsProvider).value?.length ?? 0;
     return [
-      _SectionCard(
-        title: 'İzinler',
+      FanusSectionCard(
+        title: t.screenTime.permissionsTitle,
         children: [
           _PermissionTile(
             status: ref.watch(usageAccessProvider),
-            title: 'Kullanım erişimi',
-            subtitle: 'Günlük uygulama sürelerini okumak için',
+            title: t.screenTime.usageAccessTitle,
+            subtitle: t.screenTime.usageAccessSubtitle,
             onOpen: () =>
                 ref.read(fanusScreenTimeProvider).openUsageAccessSettings(),
           ),
           _PermissionTile(
             status: ref.watch(accessibilityEnabledProvider),
-            title: 'Odak kalkanı (erişilebilirlik)',
-            subtitle: 'Odak sırasında kısıtlı uygulamaları engellemek için',
+            title: t.screenTime.shieldTitle,
+            subtitle: t.screenTime.shieldSubtitle,
             onOpen: () =>
                 ref.read(fanusScreenTimeProvider).openAccessibilitySettings(),
           ),
           _PermissionTile(
             status: ref.watch(deviceAdminProvider),
-            title: 'Cihaz yöneticisi (isteğe bağlı)',
-            subtitle: 'Odak ihlalinde ekranı kilitleyebilmek için',
+            title: t.screenTime.deviceAdminTitle,
+            subtitle: t.screenTime.deviceAdminSubtitle,
             onOpen: () =>
                 ref.read(fanusScreenTimeProvider).requestDeviceAdmin(),
           ),
         ],
       ),
       const SizedBox(height: FanusSpacing.md),
-      _SectionCard(
-        title: 'Kısıtlı uygulamalar',
+      FanusSectionCard(
+        title: t.screenTime.restrictedTitle,
         children: [
           ListTile(
             leading: const Icon(Icons.app_blocking_outlined),
-            title: Text('$restrictedCount uygulama kısıtlı'),
-            subtitle: const Text('Odak oturumu sırasında engellenir'),
+            title: Text(t.screenTime.restrictedCount(count: restrictedCount)),
+            subtitle: Text(t.screenTime.restrictedSubtitle),
             trailing: const Icon(Icons.chevron_right),
             onTap: () => _showRestrictedAppsSheet(context),
           ),
         ],
       ),
       const SizedBox(height: FanusSpacing.md),
-      _SectionCard(
-        title: 'Bugünkü kullanım',
+      FanusSectionCard(
+        title: t.screenTime.todayUsageTitle,
         children: [_UsageList(usage: ref.watch(todayUsageProvider))],
       ),
     ];
@@ -124,8 +125,9 @@ class ScreenTimeScreen extends ConsumerWidget {
                   ),
                   loading: () =>
                       const Center(child: CircularProgressIndicator()),
-                  error: (error, _) =>
-                      Center(child: Text('Uygulamalar alınamadı: $error')),
+                  error: (error, _) => Center(
+                    child: Text(t.screenTime.appsError(error: error)),
+                  ),
                 );
           },
         ),
@@ -137,13 +139,13 @@ class ScreenTimeScreen extends ConsumerWidget {
 
   List<Widget> _iosSections(WidgetRef ref) {
     return [
-      _SectionCard(
-        title: 'Ekran Süresi',
+      FanusSectionCard(
+        title: t.screenTime.iosSectionTitle,
         children: [
           _PermissionTile(
             status: ref.watch(screenTimeAuthorizedProvider),
-            title: 'Ekran Süresi yetkisi',
-            subtitle: 'FamilyControls (.individual) yetkilendirmesi',
+            title: t.screenTime.iosAuthTitle,
+            subtitle: t.screenTime.iosAuthSubtitle,
             onOpen: () async {
               await ref
                   .read(fanusScreenTimeProvider)
@@ -153,43 +155,14 @@ class ScreenTimeScreen extends ConsumerWidget {
           ),
           ListTile(
             leading: const Icon(Icons.app_blocking_outlined),
-            title: const Text('Kısıtlanacak uygulamaları seç'),
-            subtitle: const Text('Sistem seçicisi (FamilyActivityPicker) açılır'),
+            title: Text(t.screenTime.iosPickAppsTitle),
+            subtitle: Text(t.screenTime.iosPickAppsSubtitle),
             trailing: const Icon(Icons.chevron_right),
             onTap: () => ref.read(fanusScreenTimeProvider).showAppPicker(),
           ),
         ],
       ),
     ];
-  }
-}
-
-class _SectionCard extends StatelessWidget {
-  const _SectionCard({required this.title, required this.children});
-
-  final String title;
-  final List<Widget> children;
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: FanusSpacing.sm),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: FanusSpacing.md,
-                vertical: FanusSpacing.xs,
-              ),
-              child: Text(title, style: Theme.of(context).textTheme.titleMedium),
-            ),
-            ...children,
-          ],
-        ),
-      ),
-    );
   }
 }
 
@@ -219,7 +192,7 @@ class _PermissionTile extends StatelessWidget {
       subtitle: Text(subtitle),
       trailing: granted
           ? null
-          : TextButton(onPressed: onOpen, child: const Text('Aç')),
+          : TextButton(onPressed: onOpen, child: Text(t.common.open)),
     );
   }
 }
@@ -234,12 +207,10 @@ class _UsageList extends StatelessWidget {
     return usage.when(
       data: (stats) {
         if (stats.isEmpty) {
-          return const ListTile(
-            leading: Icon(Icons.hourglass_empty),
-            title: Text('Veri yok'),
-            subtitle: Text(
-              'Kullanım erişimi verildikten sonra bugünkü süreler burada listelenir.',
-            ),
+          return ListTile(
+            leading: const Icon(Icons.hourglass_empty),
+            title: Text(t.screenTime.noUsageTitle),
+            subtitle: Text(t.screenTime.noUsageHint),
           );
         }
         return Column(
@@ -249,7 +220,9 @@ class _UsageList extends StatelessWidget {
                 dense: true,
                 leading: const Icon(Icons.apps),
                 title: Text(stat.label),
-                trailing: Text('${stat.foreground.inMinutes} dk'),
+                trailing: Text(
+                  t.screenTime.minutes(minutes: stat.foreground.inMinutes),
+                ),
               ),
           ],
         );
@@ -260,7 +233,7 @@ class _UsageList extends StatelessWidget {
       ),
       error: (error, _) => ListTile(
         leading: const Icon(Icons.error_outline),
-        title: const Text('Kullanım verisi alınamadı'),
+        title: Text(t.screenTime.usageError),
         subtitle: Text('$error'),
       ),
     );

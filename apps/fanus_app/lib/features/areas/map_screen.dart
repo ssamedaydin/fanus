@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../i18n/translations.g.dart';
 import '../focus/focus_providers.dart';
 import 'areas_providers.dart';
 
@@ -38,14 +39,14 @@ class MapScreen extends ConsumerWidget {
           position: LatLng(area.latitude, area.longitude),
           infoWindow: InfoWindow(
             title: area.name,
-            snippet: 'Silmek için dokun',
+            snippet: t.map.deleteMarkerSnippet,
             onTap: () => _confirmDelete(context, ref, area),
           ),
         ),
     };
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Çalışma alanları')),
+      appBar: AppBar(title: Text(t.map.title)),
       body: Column(
         children: [
           if (!hasPermissions) const _PermissionBanner(),
@@ -69,7 +70,7 @@ class MapScreen extends ConsumerWidget {
         child: Padding(
           padding: const EdgeInsets.all(FanusSpacing.sm),
           child: Text(
-            'Haritaya uzun basarak yeni çalışma alanı ekle.',
+            t.map.longPressHint,
             textAlign: TextAlign.center,
             style: theme.textTheme.bodySmall
                 ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
@@ -109,18 +110,16 @@ class MapScreen extends ConsumerWidget {
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('${area.name} silinsin mi?'),
-        content: const Text(
-          'Bu alanın geofence kaydı da kaldırılacak.',
-        ),
+        title: Text(t.map.deleteTitle(name: area.name)),
+        content: Text(t.map.deleteBody),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(false),
-            child: const Text('Vazgeç'),
+            child: Text(t.common.cancel),
           ),
           FilledButton(
             onPressed: () => Navigator.of(context).pop(true),
-            child: const Text('Sil'),
+            child: Text(t.map.delete),
           ),
         ],
       ),
@@ -146,8 +145,7 @@ class _PermissionBanner extends ConsumerWidget {
           children: [
             Expanded(
               child: Text(
-                'Odak oturumlarının otomatik başlaması için '
-                '"her zaman" konum izni gerekli.',
+                t.map.permissionBanner,
                 style: theme.textTheme.bodyMedium?.copyWith(
                   color: theme.colorScheme.onSecondaryContainer,
                 ),
@@ -164,7 +162,7 @@ class _PermissionBanner extends ConsumerWidget {
                   await ref.read(areasProvider.notifier).resyncGeofences();
                 }
               },
-              child: const Text('İzin ver'),
+              child: Text(t.map.grantPermission),
             ),
           ],
         ),
@@ -194,7 +192,7 @@ class _AreaDialogState extends State<_AreaDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text('Yeni çalışma alanı'),
+      title: Text(t.map.newAreaTitle),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -203,13 +201,13 @@ class _AreaDialogState extends State<_AreaDialog> {
             controller: _nameController,
             autofocus: true,
             textCapitalization: TextCapitalization.sentences,
-            decoration: const InputDecoration(
-              labelText: 'Alan adı',
-              hintText: 'Ofis, kütüphane…',
+            decoration: InputDecoration(
+              labelText: t.map.areaNameLabel,
+              hintText: t.map.areaNameHint,
             ),
           ),
           const SizedBox(height: FanusSpacing.md),
-          Text('Yarıçap: ${_radius.round()} m'),
+          Text(t.map.radiusLabel(meters: _radius.round())),
           Slider(
             value: _radius,
             min: 100,
@@ -223,7 +221,7 @@ class _AreaDialogState extends State<_AreaDialog> {
       actions: [
         TextButton(
           onPressed: () => Navigator.of(context).pop(),
-          child: const Text('Vazgeç'),
+          child: Text(t.common.cancel),
         ),
         FilledButton(
           onPressed: () {
@@ -231,7 +229,7 @@ class _AreaDialogState extends State<_AreaDialog> {
             if (name.isEmpty) return;
             Navigator.of(context).pop((name, _radius));
           },
-          child: const Text('Ekle'),
+          child: Text(t.map.add),
         ),
       ],
     );

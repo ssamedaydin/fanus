@@ -1,0 +1,77 @@
+{
+  "app": {
+    "title": "Fanus"
+  },
+  "common": {
+    "cancel": "Vazgeç",
+    "open": "Aç",
+    "retry": "Tekrar dene"
+  },
+  "home": {
+    "noSessionTitle": "Aktif odak oturumu yok",
+    "noSessionHint": "Bir çalışma alanına girdiğinde oturum otomatik başlayacak.",
+    "sessionActiveTitle": "Odak oturumu sürüyor",
+    "sessionSince": "$area · $time itibarıyla",
+    "menuAreasTitle": "Çalışma alanları",
+    "menuAreasSubtitle": "Haritada alan tanımla ve yönet",
+    "menuScreenTimeTitle": "Ekran süresi ve kısıtlamalar",
+    "menuScreenTimeSubtitle": "İzinler, kullanım ve kısıtlı uygulamalar",
+    "menuRoomsTitle": "Odak odaları",
+    "menuRoomsSubtitle": "Birlikte odaklan, durumunu canlı paylaş"
+  },
+  "map": {
+    "title": "Çalışma alanları",
+    "permissionBanner": "Odak oturumlarının otomatik başlaması için \"her zaman\" konum izni gerekli.",
+    "grantPermission": "İzin ver",
+    "longPressHint": "Haritaya uzun basarak yeni çalışma alanı ekle.",
+    "newAreaTitle": "Yeni çalışma alanı",
+    "areaNameLabel": "Alan adı",
+    "areaNameHint": "Ofis, kütüphane…",
+    "radiusLabel": "Yarıçap: $meters m",
+    "add": "Ekle",
+    "deleteTitle": "$name silinsin mi?",
+    "deleteBody": "Bu alanın geofence kaydı da kaldırılacak.",
+    "delete": "Sil",
+    "deleteMarkerSnippet": "Silmek için dokun"
+  },
+  "screenTime": {
+    "title": "Ekran süresi",
+    "refreshTooltip": "Durumu yenile",
+    "permissionsTitle": "İzinler",
+    "usageAccessTitle": "Kullanım erişimi",
+    "usageAccessSubtitle": "Günlük uygulama sürelerini okumak için",
+    "shieldTitle": "Odak kalkanı (erişilebilirlik)",
+    "shieldSubtitle": "Odak sırasında kısıtlı uygulamaları engellemek için",
+    "deviceAdminTitle": "Cihaz yöneticisi (isteğe bağlı)",
+    "deviceAdminSubtitle": "Odak ihlalinde ekranı kilitleyebilmek için",
+    "restrictedTitle": "Kısıtlı uygulamalar",
+    "restrictedCount": "$count uygulama kısıtlı",
+    "restrictedSubtitle": "Odak oturumu sırasında engellenir",
+    "todayUsageTitle": "Bugünkü kullanım",
+    "noUsageTitle": "Veri yok",
+    "noUsageHint": "Kullanım erişimi verildikten sonra bugünkü süreler burada listelenir.",
+    "minutes": "$minutes dk",
+    "appsError": "Uygulamalar alınamadı: $error",
+    "usageError": "Kullanım verisi alınamadı",
+    "iosSectionTitle": "Ekran Süresi",
+    "iosAuthTitle": "Ekran Süresi yetkisi",
+    "iosAuthSubtitle": "FamilyControls (.individual) yetkilendirmesi",
+    "iosPickAppsTitle": "Kısıtlanacak uygulamaları seç",
+    "iosPickAppsSubtitle": "Sistem seçicisi (FamilyActivityPicker) açılır"
+  },
+  "rooms": {
+    "title": "Odak odaları",
+    "memberCount": "$count kişi odada",
+    "serverError": "Sunucuya ulaşılamadı",
+    "serverHint": "Demo sunucusunu başlatın: dart run fanus_server\n($url)",
+    "defaultRoomName": "Odak odası",
+    "emptyRoom": "Odada henüz kimse görünmüyor",
+    "focusing": "Odakta",
+    "idle": "Boşta",
+    "guestName": "Misafir-$id",
+    "statusConnected": "Bağlı",
+    "statusConnecting": "Bağlanıyor…",
+    "statusReconnecting": "Yeniden bağlanıyor…",
+    "statusDisconnected": "Bağlantı kesildi"
+  }
+}

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../i18n/translations.g.dart';
 import 'rooms_providers.dart';
 
 /// Katılabilecek ortak odak odalarının listesi.
@@ -15,7 +16,7 @@ class RoomsScreen extends ConsumerWidget {
     final rooms = ref.watch(roomsProvider);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Odak odaları')),
+      appBar: AppBar(title: Text(t.rooms.title)),
       body: rooms.when(
         data: (list) => ListView.builder(
           padding: const EdgeInsets.all(FanusSpacing.sm),
@@ -26,7 +27,7 @@ class RoomsScreen extends ConsumerWidget {
               child: ListTile(
                 leading: const Icon(Icons.groups_outlined),
                 title: Text(room.name),
-                subtitle: Text('${room.memberCount} kişi odada'),
+                subtitle: Text(t.rooms.memberCount(count: room.memberCount)),
                 trailing: const Icon(Icons.chevron_right),
                 onTap: () => context.push(
                   Uri(
@@ -39,28 +40,13 @@ class RoomsScreen extends ConsumerWidget {
           },
         ),
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (error, _) => Center(
-          child: Padding(
-            padding: const EdgeInsets.all(FanusSpacing.lg),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Icon(Icons.cloud_off_outlined, size: 48),
-                const SizedBox(height: FanusSpacing.md),
-                const Text('Sunucuya ulaşılamadı'),
-                const SizedBox(height: FanusSpacing.xs),
-                Text(
-                  'Demo sunucusunu başlatın: dart run fanus_server\n($serverBaseUrl)',
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.bodySmall,
-                ),
-                const SizedBox(height: FanusSpacing.md),
-                FilledButton.tonal(
-                  onPressed: () => ref.invalidate(roomsProvider),
-                  child: const Text('Tekrar dene'),
-                ),
-              ],
-            ),
+        error: (error, _) => FanusEmptyState(
+          icon: Icons.cloud_off_outlined,
+          title: t.rooms.serverError,
+          message: t.rooms.serverHint(url: serverBaseUrl),
+          action: FilledButton.tonal(
+            onPressed: () => ref.invalidate(roomsProvider),
+            child: Text(t.common.retry),
           ),
         ),
       ),
@@ -92,7 +78,10 @@ class RoomScreen extends ConsumerWidget {
         ],
       ),
       body: members.isEmpty
-          ? const Center(child: Text('Odada henüz kimse görünmüyor'))
+          ? FanusEmptyState(
+              icon: Icons.groups_outlined,
+              title: t.rooms.emptyRoom,
+            )
           : ListView.builder(
               padding: const EdgeInsets.all(FanusSpacing.sm),
               itemCount: members.length,
@@ -104,10 +93,12 @@ class RoomScreen extends ConsumerWidget {
                     child: Text(member.name.characters.first.toUpperCase()),
                   ),
                   title: Text(member.name),
+                  subtitle: Text(
+                    member.focusing ? t.rooms.focusing : t.rooms.idle,
+                  ),
                   trailing: member.focusing
                       ? Icon(Icons.center_focus_strong, color: scheme.primary)
                       : Icon(Icons.pause_circle_outline, color: scheme.outline),
-                  subtitle: Text(member.focusing ? 'Odakta' : 'Boşta'),
                 );
               },
             ),
@@ -124,10 +115,19 @@ class _StatusChip extends StatelessWidget {
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
     final (label, color) = switch (status) {
-      RoomConnectionStatus.connected => ('Bağlı', scheme.primary),
-      RoomConnectionStatus.reconnecting => ('Yeniden bağlanıyor…', scheme.error),
-      RoomConnectionStatus.connecting => ('Bağlanıyor…', scheme.outline),
-      RoomConnectionStatus.disconnected => ('Bağlantı kesildi', scheme.outline),
+      RoomConnectionStatus.connected => (t.rooms.statusConnected, scheme.primary),
+      RoomConnectionStatus.reconnecting => (
+          t.rooms.statusReconnecting,
+          scheme.error
+        ),
+      RoomConnectionStatus.connecting => (
+          t.rooms.statusConnecting,
+          scheme.outline
+        ),
+      RoomConnectionStatus.disconnected => (
+          t.rooms.statusDisconnected,
+          scheme.outline
+        ),
     };
     return Chip(
       avatar: Icon(Icons.circle, size: 10, color: color),
