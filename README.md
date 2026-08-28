@@ -24,7 +24,7 @@ The heart of the app is `SessionEngine` in `fanus_core` — a pure, unit-tested 
 - [x] Monorepo skeleton: core models + session engine (tested), design system, app shell
 - [x] Map screen: define circular work areas on Google Maps (long-press to add, radius picker, persisted locally)
 - [x] `fanus_location` plugin — Android: GeofencingClient + foreground service (Kotlin); iOS: region monitoring + background location (Swift, compilation verified on macOS separately)
-- [ ] `fanus_screen_time` plugin — Android: UsageStatsManager, Accessibility Service, DevicePolicyManager (Kotlin); iOS: FamilyControls, DeviceActivity, ManagedSettings + Shield Extension (Swift)
+- [x] `fanus_screen_time` plugin — Android: UsageStatsManager, Accessibility Service, DevicePolicyManager (Kotlin); iOS: FamilyControls, DeviceActivity, ManagedSettings + Shield Extension sample (Swift, compilation verified on macOS separately)
 - [ ] Shared focus rooms: real-time presence over WebSocket, reconnect/backoff handling
 - [ ] OneSignal push notifications, Sentry error tracking
 - [ ] TR/EN localization with slang

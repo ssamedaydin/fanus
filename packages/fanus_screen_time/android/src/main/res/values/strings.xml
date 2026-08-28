@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="fanus_accessibility_label">Fanus odak kalkanı</string>
+    <string name="fanus_accessibility_description">Fanus, odak oturumu sırasında kısıtladığın uygulamaların açılmasını engellemek için pencere değişikliklerini izler. Ekran içeriği okunmaz ve kaydedilmez.</string>
+</resources>

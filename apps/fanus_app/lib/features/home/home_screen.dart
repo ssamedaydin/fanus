@@ -88,6 +88,12 @@ class HomeScreen extends ConsumerWidget {
             icon: const Icon(Icons.map_outlined),
             label: const Text('Çalışma alanlarını yönet'),
           ),
+          const SizedBox(height: FanusSpacing.sm),
+          FilledButton.tonalIcon(
+            onPressed: () => context.push('/screen-time'),
+            icon: const Icon(Icons.shield_outlined),
+            label: const Text('Ekran süresi ve kısıtlamalar'),
+          ),
         ],
       ),
     );

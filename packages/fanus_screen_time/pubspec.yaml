@@ -1,0 +1,27 @@
+name: fanus_screen_time
+description: "Fanus ekran süresi katmanı: uygulama kullanım istatistikleri ve odak sırasında uygulama kısıtlama (Android UsageStats/Accessibility/DevicePolicy, iOS FamilyControls/DeviceActivity/ManagedSettings)."
+version: 0.1.0
+publish_to: 'none'
+
+environment:
+  sdk: ^3.12.2
+  flutter: '>=3.3.0'
+resolution: workspace
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+flutter:
+  plugin:
+    platforms:
+      android:
+        package: com.samedaydin.fanus_screen_time
+        pluginClass: FanusScreenTimePlugin
+      ios:
+        pluginClass: FanusScreenTimePlugin
