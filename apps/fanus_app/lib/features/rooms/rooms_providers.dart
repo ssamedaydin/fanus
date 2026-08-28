@@ -15,7 +15,8 @@ const serverBaseUrl = String.fromEnvironment(
 final roomsApiProvider =
     Provider<RoomsApi>((ref) => RoomsApi(baseUrl: serverBaseUrl));
 
-final roomsProvider = FutureProvider<List<FocusRoom>>(
+/// Oda listesi; ekrana her girişte yeniden çekilsin diye autoDispose.
+final roomsProvider = FutureProvider.autoDispose<List<FocusRoom>>(
   (ref) => ref.watch(roomsApiProvider).fetchRooms(),
 );
 
@@ -32,10 +33,13 @@ final roomConnectionProvider =
     uri: Uri.parse('$wsBase/ws?room=$roomId&user=$userName'),
   )..connect();
 
-  // Kendi odak durumunu odaya bildir (oturum başlayınca/bitince).
-  ref.listen(activeSessionProvider, (previous, next) {
-    connection.sendStatus(next.value != null);
-  });
+  // Kendi odak durumunu odaya bildir: odaya girerken mevcut durum
+  // (fireImmediately) ve sonrasındaki her değişim.
+  ref.listen(
+    activeSessionProvider,
+    (previous, next) => connection.sendStatus(next.value != null),
+    fireImmediately: true,
+  );
   ref.onDispose(connection.dispose);
   return connection;
 });
