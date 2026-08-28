@@ -26,7 +26,7 @@ The heart of the app is `SessionEngine` in `fanus_core` — a pure, unit-tested 
 - [x] `fanus_location` plugin — Android: GeofencingClient + foreground service (Kotlin); iOS: region monitoring + background location (Swift, compilation verified on macOS separately)
 - [x] `fanus_screen_time` plugin — Android: UsageStatsManager, Accessibility Service, DevicePolicyManager (Kotlin); iOS: FamilyControls, DeviceActivity, ManagedSettings + Shield Extension sample (Swift, compilation verified on macOS separately)
 - [x] Shared focus rooms: real-time presence over WebSocket with exponential-backoff reconnection (demo server included in `server/`)
-- [ ] OneSignal push notifications, Sentry error tracking
+- [x] OneSignal push notifications (with an iOS Notification Service Extension sample) and Sentry error tracking — both key-gated via `--dart-define`, silently disabled when unset
 - [ ] TR/EN localization with slang
 
 > **Note on iOS screen-time features:** FamilyControls uses `.individual` authorization and requires the Family Controls entitlement; a development entitlement is sufficient to run the demo on a device.
